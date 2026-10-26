@@ -11,6 +11,17 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY scripts ./scripts
 RUN pnpm install --frozen-lockfile
 
+# Install runtime dependencies in a fresh layer. Pruning dependencies copied
+# from another stage can rename directories across overlay filesystem layers.
+FROM node:24-alpine AS production-deps
+
+RUN corepack enable
+WORKDIR /app
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY scripts ./scripts
+RUN CI=true HUSKY=0 pnpm install --prod --frozen-lockfile --ignore-scripts && \
+    node scripts/postinstall.js
+
 # ================================
 # Build Stage
 # ================================
@@ -25,7 +36,6 @@ COPY . .
 
 RUN pnpm build
 
-RUN CI=true pnpm prune --prod --ignore-scripts
 
 # ================================
 # Production Stage
@@ -39,7 +49,7 @@ RUN addgroup -g 1001 -S nodejs && \
 
 WORKDIR /app
 
-COPY --from=builder --chown=reactrouter:nodejs /app/node_modules ./node_modules
+COPY --from=production-deps --chown=reactrouter:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=reactrouter:nodejs /app/build ./build
 COPY --from=builder --chown=reactrouter:nodejs /app/package.json ./package.json
 
