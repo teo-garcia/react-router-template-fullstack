@@ -23,7 +23,7 @@
     "@eslint/js": "^10.0.0",
     "@playwright/test": "^1.57.0",
     "@react-router/dev": "^7.9.6",
-    "@rolldown/plugin-babel": "^0.2.1",
+    "@rolldown/plugin-babel": "^0.3.0",
     "@tailwindcss/vite": "^4.1.17",
     "@teo-garcia/eslint-config-shared": "^0.4.2",
     "@teo-garcia/prettier-config-shared": "^0.2.10",
@@ -44,7 +44,7 @@
     "axe-core": "^4.11.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "concurrently": "^10.0.0",
-    "eslint": "10.13.0",
+    "eslint": "10.14.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -67,7 +67,7 @@
     "vitest": "^4.1.12",
     "vitest-axe": "^0.1.0"
   },
-  "packageManager": "pnpm@11.28.8",
+  "packageManager": "pnpm@11.28.11",
   "engines": {
     "node": ">=24"
   },
